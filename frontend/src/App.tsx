@@ -17,11 +17,26 @@ function App() {
     getUsers();
   }, []);
 
+  // Se conecta al websocket
+  useEffect(() => {
+    const socket = new WebSocket("ws://127.0.0.1:8000/ws");
+
+    socket.onmessage = (event) => {
+      const message = event.data;
+      console.log("Mensaje del backend: ", message);
+      alert(`Mensaje del backend: ${message}`);
+      getUsers();
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
   // Se hace la peticion para obtener los usuarios de la base de datos
   const getUsers = async () => {
     const response = await fetch("http://127.0.0.1:8000/users");
     const results = await response.json();
-    console.log(results);
     setUsers(results.users);
   };
 
@@ -72,10 +87,6 @@ function App() {
   return (
     <div>
       <header className="font-bold text-5xl m-2">Lista de Usuarios</header>
-      {/* Boton para actualizar tabla, comentado debido a que se actualiza automaticamente en cualquier accion */}
-      {/* <button className="m-2" onClick={getUsers}>
-        Actualizar Usuarios
-      </button> */}
       <button className="m-2" onClick={createUser}>
         Añadir Usuario
       </button>
