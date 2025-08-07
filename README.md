@@ -11,7 +11,7 @@ cd backend
 # Crea un entorno virtual
 
 python -m venv env
-source env/bin/activate # En Windows: env\Scripts\activate
+env\Scripts\activate
 
 # Instala dependencias
 
@@ -23,7 +23,7 @@ uvicorn app.main:app --reload
 
 # Instalacion del frontend
 
-cd ../frontend
+cd frontend
 
 # Instala dependencias
 
