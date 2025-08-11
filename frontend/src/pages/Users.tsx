@@ -21,21 +21,19 @@ function Users() {
       return;
     }
 
-    getUsers();
+    getUsers(token);
 
     // Conexion al WebSocket
     const socket = new WebSocket("ws://127.0.0.1:8001/ws");
     socket.onmessage = (event) => {
       alert(`Mensaje del backend: ${event.data}`);
-      getUsers();
+      getUsers(token);
     };
     return () => socket.close();
   }, []);
 
   // Función para obtener usuarios
-  const getUsers = async () => {
-    const token = localStorage.getItem("token");
-
+  const getUsers = async (token: string) => {
     const res = await fetch("http://127.0.0.1:8001/users", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +62,10 @@ function Users() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
-    }).then(() => getUsers());
+    }).then(() => {
+      const token = localStorage.getItem("token");
+      if (token) getUsers(token);
+    });
   };
 
   // Función para editar un usuario
@@ -86,7 +87,9 @@ function Users() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ name, email, password }),
-    }).then(() => getUsers());
+    }).then(() => {
+      if (token) getUsers(token);
+    });
   };
 
   // Función para eliminar un usuario
@@ -101,7 +104,7 @@ function Users() {
         Authorization: `Bearer ${token}`,
       },
     });
-    getUsers();
+    if (token) getUsers(token);
   };
 
   // Función para cerrar sesion

@@ -41,6 +41,7 @@ npm run dev
 # Ejecuta el api gateway
 
 cd api_gateway
+python -m venv venv  
 .\venv\Scripts\Activate
 uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 

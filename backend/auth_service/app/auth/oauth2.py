@@ -4,9 +4,9 @@ from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 import httpx
 
-SECRET_KEY = "contrasenacontrasena123"
+SECRET_KEY = "contrasena"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 360
 USER_SERVICE_URL = "http://127.0.0.1:8000"
 
 # Contexto para el hashing de contrasenas

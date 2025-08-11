@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Componente para el inicio de sesion
@@ -7,6 +7,11 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  // Al cargar la pagina de login se elimina cualquier token antiguo
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
 
   // Funcion para manejar el inicio de sesion
   const handleLogin = async (e: React.FormEvent) => {
