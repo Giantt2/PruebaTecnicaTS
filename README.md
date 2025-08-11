@@ -43,6 +43,7 @@ npm run dev
 cd api_gateway
 python -m venv venv  
 .\venv\Scripts\Activate
+pip install -r requirements.txt
 uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 
 # Ejecuta el websocket service
