@@ -1,5 +1,7 @@
 import sqlite3
-from app.auth.oauth2 import getPasswordHash
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Funcion para crear la tabla que guardara a los usuarios que se registren
 def CreateTable():
@@ -54,3 +56,17 @@ def DeleteUser(id):
     cur.execute("DELETE FROM users WHERE id = ?", (id,))
     con.commit()
     con.close()
+
+# Funcion para obtener el hash de una contrasena
+def getPasswordHash(password: str) -> str:
+    return pwd_context.hash(password)
+
+# Funcion para obtener un usuario por su email
+def GetUserByEmail(email: str):
+    con = sqlite3.connect('app/db/users.db')
+    con.row_factory = sqlite3.Row 
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users WHERE email = ?", (email,))
+    row = cur.fetchone()
+    con.close()
+    return row 
